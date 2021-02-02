@@ -1,56 +1,57 @@
-import PropsTypes from 'prop-types'
-import React from 'react'
-import { Button, CustomInput, ListGroup, ListGroupItem } from 'reactstrap'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Button, CustomInput, ListGroup, ListGroupItem } from 'reactstrap';
 
+// List Item Component
 const ListItem = ({ todo, toggleSelect, toggleComplete }) => {
-    return (
-        <ListGroupItem className='d-flex align-items-center'>
-            <CustomInput
-                type='checkbox'
-                id={todo.id}
-                checked={todo.isSelect}
-                onChange={ () => toggleSelect(todo.id) }
-            />
-            <div className='mx-3'>
-                <h4> { todo.text } </h4>
-                <p> {todo.time.toDateString()} </p>
-            </div>
-            <Button
-                className='ml-auto'
-                color={todo.isComplete ? 'danger' : 'success'}
-            >
-                { todo.isComplete ? 'Complete' : 'Running' }
-            </Button>
-        </ListGroupItem>
-    )
-}
+	return (
+		<ListGroupItem className='d-flex align-items-center'>
+			<CustomInput
+				type='checkbox'
+				id={todo.id}
+				checked={todo.isSelect}
+				onChange={() => toggleSelect(todo.id)}
+			/>
+			<div className='mx-3'>
+				<h4>{todo.text}</h4>
+				<p>{todo.time.toDateString()}</p>
+			</div>
+			<Button
+				className='ml-auto'
+				color={todo.isComplete ? 'danger' : 'success'}
+				onClick={() => toggleComplete(todo.id)}
+			>
+				{todo.isComplete ? 'Completed' : 'Running'}
+			</Button>
+		</ListGroupItem>
+	);
+};
 
-ListItem.prototype = {
-    todo: PropsTypes.object.isRequired,
-    toggleSelect: PropsTypes.func.isRequired,
-    toggleComplete: PropsTypes.func.isRequired
-}
+ListItem.propTypes = {
+	todo: PropTypes.object.isRequired,
+	toggleSelect: PropTypes.func.isRequired,
+	toggleComplete: PropTypes.func.isRequired
+};
 
 const ListView = ({ todos, toggleSelect, toggleComplete }) => {
-    return(
-        <ListGroup>
-            {todos.map(todo => (
-                <ListItem
-                    key={todo.id}
-                    todo={todo}
-                    toggleSelect={toggleComplete}
-                    toggleComplete={toggleComplete}
-                />
-            ))
+	return (
+		<ListGroup>
+			{todos.map(todo => (
+				<ListItem
+					key={todo.id}
+					todo={todo}
+					toggleSelect={toggleSelect}
+					toggleComplete={toggleComplete}
+				/>
+			))}
+		</ListGroup>
+	);
+};
 
-            }
-        </ListGroup>
-    )
-}
-ListGroup.prototype = {
-    todos: PropsTypes.object.isRequired,
-    toggleSelect: PropsTypes.func.isRequired,
-    toggleComplete: PropsTypes.func.isRequired
-}
+ListView.propTypes = {
+	todos: PropTypes.object.isRequired,
+	toggleSelect: PropTypes.func.isRequired,
+	toggleComplete: PropTypes.func.isRequired
+};
 
-export default ListView
+export default ListView;
